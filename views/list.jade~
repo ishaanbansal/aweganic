@@ -1,9 +1,0 @@
-extends layout
-
-block content
-	h1= title
-	p= 'Last flight viewed: ' + lastNumber
-	ul
-		each flight, index in arrivals
-			- landed = flight.drinks
-			li= flight.comboID + ': ' + flight.mainCourse + ' + ' + landed

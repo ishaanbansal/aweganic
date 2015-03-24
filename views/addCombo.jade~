@@ -1,9 +1,0 @@
-extends layout
-
-block content
-	h1= title
-	form(method='post')
-		input(name='comboID', class='input-block-level', placeholder='ID')
-		input(name='mainCourse', class='input-block-level', placeholder='Main Course')
-		input(name='drinks', class='input-block-level', placeholder='Drinks')
-		input(type='submit', class='btn btn-primary', value='Log in')

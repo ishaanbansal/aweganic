@@ -41,18 +41,18 @@ module.exports = function (flights, db) {
 	}
 
 	app.get('/combo/:number', routes.combo);
-	app.get('/menu', routes.list);
+	app.get('/menu', routes.menu);
 	app.get('/addcombo', routes.addComboView);
 	app.post('/addcombo', routes.addCombo);
 	
 
-	app.get('/login', routes.login);
-	app.post('/login', passport.authenticate('local', {
-		failureRedirect: '/login',
-		successRedirect: '/user'
+	app.get('/', routes.login);
+	app.post('/', passport.authenticate('local', {
+		failureRedirect: '/',
+		successRedirect: '/menu'
 	}));
 
-	app.get('/user', routes.user);
+	//app.get('/user', routes.user);
 
 	return app;
 }

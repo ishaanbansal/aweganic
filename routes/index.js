@@ -3,6 +3,12 @@
  * GET home page.
  */
 
+/*
+	req.session.passport.admin --> aweganic admins
+	req.session.passport.user --> company admins
+	req.session.passport.customer --> individual customers
+*/
+
 var menuSchema = require('../schemas/menu');
 
 module.exports = function (menu) {
@@ -26,28 +32,40 @@ module.exports = function (menu) {
 		}
 	};
 
-	functions.list = function(req, res) {
-		menuSchema.find()
-		.setOptions({sort: 'ID'})
-		.exec(function(err, arrivals) {
-			if (err) {
-				res.status(500).json({status: 'failure'});
-			} else {
-				res.render('list', {
-					title: 'Menu',
-					menu: arrivals,
-					lastNumber: req.session.lastNumber
-				});
-			}
-		});
+	functions.menu = function(req, res) {
+		if (req.session.passport.user === undefined) {
+			res.redirect('/');
+		} else {
+			menuSchema.find()
+			.setOptions({sort: 'ID'})
+			.exec(function(err, combos) {
+				if (err) {
+					res.status(500).json({status: 'failure'});
+				} else {
+					res.render('list', {
+						title: 'Welcome!',
+						user: req.user,
+						menu: combos,
+						lastNumber: req.session.lastNumber
+					});
+				}
+			});
+		}
 	};
 	
 	functions.addComboView = function(req, res) {
-		res.render('addCombo', {title: 'add'});
+		if (req.session.passport.user === undefined) {
+			res.redirect('/');
+		} else {
+			res.render('addCombo', {title: 'add'});
+		}
 	};
 
 	functions.addCombo = function(req, res) {
-		var temp = combo(
+		if (req.session.passport.user === undefined) {
+			res.redirect('/');
+		} else {
+			var temp = combo(
 			{'comboID':req.body.comboID,
 			'mainCourse':req.body.mainCourse,
 			'drinks':req.body.drinks}
@@ -65,20 +83,14 @@ module.exports = function (menu) {
 			});
 			res.redirect('/menu');
 			res.json({status: 'done'});
-
+		}
 	};	
 
 	functions.login = function(req, res) {
-		res.render('login', {title: 'Log in'});
-	};
-
-	functions.user = function(req, res) {
 		if (req.session.passport.user === undefined) {
-			res.redirect('/login');
+			res.render('login', {title: 'Log in'});
 		} else {
-			res.render('user', {title: 'Welcome!',
-				user: req.user
-			})
+			res.redirect('/menu');
 		}
 	};
 
