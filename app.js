@@ -41,17 +41,22 @@ module.exports = function (flights, db) {
 	}
 
 	app.get('/combo/:number', routes.combo);
-	app.get('/menu', routes.menu);
 	app.get('/addcombo', routes.addComboView);
 	app.post('/addcombo', routes.addCombo);
+	app.get('/deletecombo/:id', routes.deleteCombo);
+
+	//app.get('/feedback', routes.feedbackView);
+	//app.post('/feedback', routes.feedback);
 	
 
-	app.get('/', routes.login);
-	app.post('/', passport.authenticate('local', {
-		failureRedirect: '/',
-		successRedirect: '/menu'
+	app.get('/', routes.menu);
+	app.get('/login', routes.login);
+	app.post('/login', passport.authenticate('local', {
+		failureRedirect: '/login',
+		successRedirect: '/'
 	}));
 
+	
 	//app.get('/user', routes.user);
 
 	return app;

@@ -1,11 +1,10 @@
 {
-  "name": "flight",
+  "name": "aweganic",
   "version": "0.0.0",
-  "description": "A module for keeping track of a flight",
+  "description": "A module for aweganic admins",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Joe LeBlanc <joe@example.com>",
-  "license": "BSD-2-Clause"
+  "author": "Ishaan Bansal",
 }

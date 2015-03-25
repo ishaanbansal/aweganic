@@ -34,15 +34,15 @@ module.exports = function (menu) {
 
 	functions.menu = function(req, res) {
 		if (req.session.passport.user === undefined) {
-			res.redirect('/');
+			res.redirect('/login');
 		} else {
 			menuSchema.find()
-			.setOptions({sort: 'ID'})
+			.setOptions({sort: 'comboID'})
 			.exec(function(err, combos) {
 				if (err) {
 					res.status(500).json({status: 'failure'});
 				} else {
-					res.render('list', {
+					res.render('menu', {
 						title: 'Welcome!',
 						user: req.user,
 						menu: combos,
@@ -54,16 +54,20 @@ module.exports = function (menu) {
 	};
 	
 	functions.addComboView = function(req, res) {
+		//add condition to check for admins login
+		
 		if (req.session.passport.user === undefined) {
-			res.redirect('/');
+			res.redirect('/login');
 		} else {
 			res.render('addCombo', {title: 'add'});
 		}
 	};
 
 	functions.addCombo = function(req, res) {
+		//add condition to check for admins login
+		
 		if (req.session.passport.user === undefined) {
-			res.redirect('/');
+			res.redirect('/login');
 		} else {
 			var temp = combo(
 			{'comboID':req.body.comboID,
@@ -81,16 +85,22 @@ module.exports = function (menu) {
 					res.json({status: 'success'});
 				}
 			});
-			res.redirect('/menu');
-			res.json({status: 'done'});
+			res.redirect('/');
 		}
 	};	
+
+	functions.deleteCombo = function(req, res) { 
+		menuSchema.remove({"comboID":req.params.id}, function(err, result) { 
+		    res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
+		});
+		res.redirect('/');
+	}
 
 	functions.login = function(req, res) {
 		if (req.session.passport.user === undefined) {
 			res.render('login', {title: 'Log in'});
 		} else {
-			res.redirect('/menu');
+			res.redirect('/');
 		}
 	};
 
