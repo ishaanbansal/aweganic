@@ -10,6 +10,7 @@
 */
 
 var menuSchema = require('../schemas/menu');
+var feedbackSchema = require('../schemas/feedback');
 
 module.exports = function (menu) {
 	var combo = require('../combo');
@@ -19,7 +20,7 @@ module.exports = function (menu) {
 	}
 
 	var functions = {};
-
+	//GET 
 	functions.combo = function(req, res){
 		var number = req.param('number');
 
@@ -94,6 +95,26 @@ module.exports = function (menu) {
 		    res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
 		});
 		res.redirect('/');
+	}
+
+	functions.listFeedback = function(req, res) {
+		if (req.session.passport.user === undefined) {
+			res.redirect('/login');
+		} else {
+			feedbackSchema.find()
+			.setOptions({sort: 'rating'})
+			.exec(function(err, feeds) {
+				if (err) {
+					res.status(500).json({status: 'failure'});
+				} else {
+					res.render('feedbacks', {
+						title: 'FeedBacks',
+						user: req.user,
+						feeds: feeds
+					});
+				}
+			});
+		}
 	}
 
 	functions.login = function(req, res) {

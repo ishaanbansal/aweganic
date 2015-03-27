@@ -5,6 +5,6 @@ block content
 	p= 'Hello ' + user.username + '!'
 	p= 'Last flight viewed: ' + lastNumber
 	ul
-		each flight, index in menu
-			- landed = flight.drinks
-			li= flight.comboID + ': ' + flight.mainCourse + ' + ' + landed
+		each combo, index in menu
+			- landed = combo.drinks
+			li= combo.comboID + ': ' + combo.mainCourse + ' + ' + landed
