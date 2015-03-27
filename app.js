@@ -45,7 +45,7 @@ module.exports = function (flights, db) {
 	app.post('/addcombo', routes.addCombo);
 	app.get('/deletecombo/:id', routes.deleteCombo);
 
-	//app.get('/feedback', routes.feedbackView);
+	app.get('/feedbacks', routes.listFeedback);
 	//app.post('/feedback', routes.feedback);
 	
 
