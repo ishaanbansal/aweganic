@@ -47,7 +47,7 @@ module.exports = function (menu) {
 						title: 'Welcome!',
 						user: req.user,
 						menu: combos,
-						lastNumber: req.session.lastNumber
+						//lastNumber: req.session.lastNumber
 					});
 				}
 			});
